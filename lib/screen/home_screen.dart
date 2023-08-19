@@ -3,6 +3,7 @@ import 'package:hisab/screen/add_hisab_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'alert_dialogue_screen.dart';
 import 'hisab_screen.dart';
 
 class Homepage extends StatefulWidget {
@@ -32,46 +33,85 @@ class _HomepageState extends State<Homepage> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(
+            child: Container(
+              margin: EdgeInsets.all(5),
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 3,color: Colors.blue),
+                  borderRadius: BorderRadius.circular(5)),
+              child: const Text(
+                "Previous Hisab",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: Colors.green),
+              ),
+            ),
+          ),
           getPriviosHisabList,
           getAddHisabNamRow,
           getHisabButton,
         ],
       ));
 
-  get getPriviosHisabList => Expanded(
-        child: ListView.builder(
-            padding: const EdgeInsets.all(20),
-            shrinkWrap: true,
-            itemCount: box.length,
-            itemBuilder: (ctx, ind) {
-              return getSingleBoxName(ind);
-            }),
-      );
+  get getPriviosHisabList => (box.length == 0)
+      ? const Center(child: Text("No previous Hisab Found!"))
+      : Expanded(
+          child: ListView.builder(
+              padding: const EdgeInsets.all(20),
+              shrinkWrap: true,
+              itemCount: box.length,
+              itemBuilder: (ctx, ind) {
+                return getSingleBoxName(ind);
+              }),
+        );
 
   getSingleBoxName(ind) {
     var boxName = box.getAt(ind);
-    return InkWell(
-        onTap: () async {
-          await Hive.openBox(boxName);
-          Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-            return HisabScreen(boxName);
-          }));
-        },
-        child: Container(
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.black12,
-                border: Border.all(width: 3)),
-            child: Center(
-                child: Text(
-              boxName,
-              style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.brown,
-                  fontWeight: FontWeight.bold),
-            ))));
+    return Row(
+      children: [
+        InkWell(
+            onTap: () async {
+              await Hive.openBox(boxName);
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                return HisabScreen(boxName);
+              }));
+            },
+            child: Container(
+                padding: const EdgeInsets.all(5),
+                margin: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.black12,
+                    border: Border.all(width: 3)),
+                child: Center(
+                    child: Text(
+                  boxName,
+                  style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.brown,
+                      fontWeight: FontWeight.bold),
+                )))),
+        IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  backgroundColor: Colors.transparent,
+                  contentPadding: const EdgeInsets.only(right: 25, left: 25),
+                  content: AlertDialogueScreen(),
+                ),
+              ).then((value) async {
+                if (value) {
+                  await box.deleteAt(ind);
+                  setState(() {});
+                }
+              });
+            },
+            icon: const Icon(Icons.close))
+      ],
+    );
   }
 
   get getAddHisabNamRow => Container(
