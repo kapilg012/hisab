@@ -12,8 +12,8 @@ class HisabScreen extends StatefulWidget {
 
 class _HisabScreenState extends State<HisabScreen> {
   late Box box;
-  TextEditingController _subjectController = TextEditingController();
-  TextEditingController _amountController = TextEditingController();
+  final TextEditingController _subjectController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
 
   List<num> listOfSum = [];
   List<bool> listOfBool = [];
@@ -39,11 +39,13 @@ class _HisabScreenState extends State<HisabScreen> {
         children: [
           Expanded(
             child: ListView.builder(
+                padding: EdgeInsets.all(20),
                 itemCount: box.length,
                 itemBuilder: (ctx, ind) => singleMainListItem(ind)),
           ),
           Expanded(
               child: ListView.builder(
+                padding: EdgeInsets.all(20),
             itemBuilder: (ctx, ind) {
               return singleTextItem(ind);
             },
@@ -85,8 +87,23 @@ class _HisabScreenState extends State<HisabScreen> {
         children: [
           Row(
             children: [
-              Text("${name}"),
-              Text("${sum}"),
+              Container(
+                  width: 100,
+                  padding:
+                      const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(width: 2)),
+                  child: Center(child: Text("${name}"))),
+              const SizedBox(
+                width: 20,
+              ),
+              Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(width: 3)),
+                  child: Center(child: Text("${sum}"))),
               IconButton(
                   onPressed: () {
                     listOfBool[index] = !listOfBool[index];
