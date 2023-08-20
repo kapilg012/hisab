@@ -45,7 +45,7 @@ class _HisabScreenState extends State<HisabScreen> {
           ),
           Expanded(
               child: ListView.builder(
-                padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
             itemBuilder: (ctx, ind) {
               return singleTextItem(ind);
             },
@@ -84,14 +84,16 @@ class _HisabScreenState extends State<HisabScreen> {
     listOfSum[index] = sum;
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Container(
                   width: 100,
-                  padding:
-                      const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
+                  padding: const EdgeInsets.only(
+                      left: 30, right: 30, top: 5, bottom: 5),
                   decoration: BoxDecoration(
+                      color: Colors.black12,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(width: 2)),
                   child: Center(child: Text("${name}"))),
@@ -99,8 +101,9 @@ class _HisabScreenState extends State<HisabScreen> {
                 width: 20,
               ),
               Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
+                      color: Colors.black12,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(width: 3)),
                   child: Center(child: Text("${sum}"))),
@@ -116,7 +119,7 @@ class _HisabScreenState extends State<HisabScreen> {
           ),
           if (listOfBool[index])
             Container(
-              height: list.length * 20,
+              height: list.length * 60,
               child: ListView.builder(
                 itemBuilder: (cx, ind) {
                   return getSingleItem(name, ind);
@@ -181,11 +184,26 @@ class _HisabScreenState extends State<HisabScreen> {
 
     print("${item}");
 
-    return Row(
-      children: [
-        Text(item[listIndex]["subject"]),
-        Text("${item[listIndex]["amount"]}"),
-      ],
+    return Container(
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 3)),
+      child: Center(
+        child: Row(
+          children: [
+            Text(
+              item[listIndex]["subject"],
+              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+            Text(" --- "),
+            Text(
+              "${item[listIndex]["amount"]}",
+              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
