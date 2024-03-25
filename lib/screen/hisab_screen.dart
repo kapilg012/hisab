@@ -38,12 +38,14 @@ class _HisabScreenState extends State<HisabScreen> {
           child: Column(
         children: [
           Expanded(
+            flex: 8,
             child: ListView.builder(
                 padding: EdgeInsets.all(20),
                 itemCount: box.length,
                 itemBuilder: (ctx, ind) => singleMainListItem(ind)),
           ),
           Expanded(
+            flex: 2,
               child: ListView.builder(
             padding: EdgeInsets.all(20),
             itemBuilder: (ctx, ind) {
@@ -119,7 +121,7 @@ class _HisabScreenState extends State<HisabScreen> {
           ),
           if (listOfBool[index])
             Container(
-              height: list.length * 60,
+              height: list.length * 35,
               child: ListView.builder(
                 itemBuilder: (cx, ind) {
                   return getSingleItem(name, ind);
@@ -194,12 +196,12 @@ class _HisabScreenState extends State<HisabScreen> {
           children: [
             Text(
               item[listIndex]["subject"],
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
             Text(" --- "),
             Text(
               "${item[listIndex]["amount"]}",
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
           ],
         ),
